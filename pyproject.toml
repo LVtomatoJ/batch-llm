@@ -1,0 +1,13 @@
+[project]
+name = "batch-llm"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "loguru>=0.7.3",
+    "nicegui>=2.23.3",
+    "openai>=1.106.1",
+    "openpyxl>=3.1.5",
+    "pydantic-settings>=2.10.1",
+]
