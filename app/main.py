@@ -133,9 +133,10 @@ def create_task():
             update_preview()
 
     # 页面底部：结果区域
-    with ui.card().classes('w-full mx-4 mt-2'):
-        ui.label('运行结果').classes('text-base font-medium pb-1')
-        result_container = ui.column().classes('w-full')
+    with ui.row().classes('w-full px-4 mt-2'):
+        with ui.card().classes('w-full'):
+            ui.label('运行结果').classes('text-base font-medium pb-1')
+            result_container = ui.column().classes('w-full')
 
 
 ui.label('批量提问小助手!')
