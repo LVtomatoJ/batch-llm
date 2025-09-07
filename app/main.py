@@ -11,10 +11,11 @@ class TaskUiModel:
         self.question = ''
         self.model = ''
         self.api_key = ''
+        self.tools = []
 
 
 async def start_once(task_data: TaskUiModel):
-    llm_service = LLMService(task_data.api_key)
+    llm_service = LLMService(task_data.api_key, task_data.tools)
     first_var = task_data.variables.split('\n')[0]
     task = Task(first_var, task_data.question, task_data.model, llm_service)
     response = await task.start_once()
@@ -22,7 +23,7 @@ async def start_once(task_data: TaskUiModel):
 
 
 async def start_all(task_data: TaskUiModel, result_container):
-    llm_service = LLMService(task_data.api_key)
+    llm_service = LLMService(task_data.api_key, task_data.tools)
     tasks = []
     for var in task_data.variables.split('\n'):
         if not var.strip():
@@ -101,13 +102,13 @@ def create_task():
                 .props('autogrow').classes('w-full').bind_value_to(
                     task, 'question')
 
-            ui.select(['gpt-4o-mini', 'gpt-4o'], value='gpt-4o-mini') \
+            ui.select(['gpt-4o-mini', 'gpt-4o', 'gpt-5-mini'], value='gpt-4o-mini') \
                 .classes('w-full').bind_value_to(task, 'model')
 
             ui.input('openai api key', password=True,
                      placeholder='请输入 openai api key').classes('w-full') \
                 .bind_value_to(task, 'api_key')
-
+            ui.select(['web_search'], multiple=True, label='额外功能').bind_value_to(task, 'tools')
             with ui.row().classes('gap-2 pt-1'):
                 ui.button('试一次', on_click=lambda: start_once(task)).props(
                     'color=primary')
